@@ -1,0 +1,38 @@
+plugins {
+	id 'java'
+	id 'war'
+	id 'org.springframework.boot' version '3.1.4-SNAPSHOT'
+	id 'io.spring.dependency-management' version '1.1.3'
+}
+
+group = 'ru.nsu.ccfit.mikhalev'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
+
+repositories {
+	mavenCentral()
+	maven { url 'https://repo.spring.io/milestone' }
+	maven { url 'https://repo.spring.io/snapshot' }
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	implementation 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
+
+	implementation group: 'me.paulschwarz', name: 'spring-dotenv', version: '4.0.0'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

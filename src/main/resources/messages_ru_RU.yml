@@ -1,0 +1,39 @@
+# настройка spring doc
+api.title=Документация к цифровой библиотеке 
+api.license=Лицензия ШИФТ ЦФТ
+api.description=Документация взаимодействует с системой цифровой библиотеке в рамках тренировчного проекта
+api.digital-library.name=Цифровая библиотека
+
+# ошибки валиадации 
+validation.book-info.title.not-empty=Название книги не может быть пустым
+validation.book-info.year.not-empty=Год издания не может быть пустым
+validation.book-info.author.not-empty=Автор не может быть пустым
+validation.book-info.publisher.not-empty=Издательство не может быть пустым
+validation.book-info.description.not-empty=Описание не может быть пустым
+
+# ошибки при запросе
+api.digital-library.book-info.server.error=Ошибка сервера
+api.digital-library.book-info.by-name.api.response.404=Книга не найдена
+
+# api documentation описание
+
+# название контроллеров
+api.digital-library.tag.name=Книги
+
+# описание контроллеров
+api.digital-library.tag.description=Контроллер для обработки запросов о книге
+
+
+#описание методов
+api.digital-library.book.info=Метод показывает инфоормацию о книге
+api.digital-library.book.add=Метод добавляет информацию о книге
+api.digital-library.book.books-page=Метод выдает страницу списка книг, количество книг книг на странице можно изменять в файле .env
+
+# api код возврата 
+api-digital-library.return-code.ok=200
+  
+# api описание кода возврата 
+api-digital-library.return-code.ok.description=успешно отработал метод
+
+
+
