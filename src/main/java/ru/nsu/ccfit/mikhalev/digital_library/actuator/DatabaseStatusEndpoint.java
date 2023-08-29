@@ -8,8 +8,10 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 @Component
-@Endpoint(id = "database")
+@Endpoint(id = "databases")
 public class DatabaseStatusEndpoint {
+//    private JdbcTemplate jdbcTemplate;
+
     @ReadOperation
     private Map<String, Status> databases() {
         return Map.of("mongoDB", Status.UP, "postgresSQL", Status.UP);
