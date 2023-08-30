@@ -1,4 +1,3 @@
 package ru.nsu.ccfit.mikhalev.digital_library.service;
 
-public class AuthorService {
-}
+public class AuthorService {}

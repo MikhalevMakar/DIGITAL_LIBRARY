@@ -16,7 +16,7 @@ validation.digital-library.past-date=Дата рождения/Год основ
 # ошибки при запросе
 api.digital-library.book-info.server.error=Ошибка сервера
 api.digital-library.book-info.by-name.api.response.404=Книга не найдена
-
+api.digital-library.book-info.by-name.api.response.404=Книга уже есть в базе данных 
 # api documentation описание
 
 # название контроллеров

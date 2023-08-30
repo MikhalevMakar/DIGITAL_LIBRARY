@@ -18,12 +18,15 @@ public class Book {
     private String title;
 
     @Column(nullable = false)
-    private Short year;
+    private Integer year;
 
-    @ManyToMany(mappedBy = "books")
+    @Column(nullable = false)
+    private String description;
+
+    @ManyToMany(mappedBy = "books", cascade = CascadeType.ALL)
     private Set<Author> authors;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="publisher_id", nullable = false)
     private Publisher publisher;
 }

@@ -10,6 +10,13 @@ import java.util.Set;
 @Setter
 @Table
 public class Publisher {
+
+    public Publisher() {}
+
+    public Publisher(String title) {
+        this.title = title;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column

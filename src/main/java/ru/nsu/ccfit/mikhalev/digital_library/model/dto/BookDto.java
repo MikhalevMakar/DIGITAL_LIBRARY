@@ -18,10 +18,10 @@ public class BookDto {
     @Max(ContextValidation.CURRENT_YEAR)
     @NotEmpty(message = "{validation.digital-library.year.not-empty}")
     @Past(message = "{validation.digital-library.past-date}")
-    private Short year;
+    private Integer year;
 
     @NotNull(message = "{validation.digital-library.author.not-empty}")
-    private List<AuthorDto> authors;
+    private List<String> authors;
 
     @Size(min = ContextValidation.MIN_SIZE_WORD,
           max = ContextValidation.MAX_SIZE_WORD)

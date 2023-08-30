@@ -1,28 +1,56 @@
 package ru.nsu.ccfit.mikhalev.digital_library.service;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.nsu.ccfit.mikhalev.digital_library.model.dto.BookDto;
-import ru.nsu.ccfit.mikhalev.digital_library.model.entity.jpa.Book;
-import ru.nsu.ccfit.mikhalev.digital_library.model.exception.BookNotFoundException;
-import ru.nsu.ccfit.mikhalev.digital_library.repository.jpa.BookRepository;
+import ru.nsu.ccfit.mikhalev.digital_library.model.entity.jpa.*;
+import ru.nsu.ccfit.mikhalev.digital_library.model.exception.*;
+import ru.nsu.ccfit.mikhalev.digital_library.model.mapper.MapperBook;
+import ru.nsu.ccfit.mikhalev.digital_library.repository.jpa.*;
+import ru.nsu.ccfit.mikhalev.digital_library.util.ContextSpecialSymbols;
 
 @Service
 public class BookService {
-    private final BookRepository bookRepository;
+    @Autowired
+    private BookRepository bookRepository;
 
     @Autowired
-    public BookService(BookRepository bookRepository) {
-        this.bookRepository = bookRepository;
-    }
+    private AuthorRepository authorRepository;
+
+    @Autowired
+    private PublisherRepository publisherRepository;
 
     public BookDto getBookInfo(String title) throws BookNotFoundException {
         Book book = bookRepository.findBookByTitle(title);
 
-        if(book.equals(null))
-            throw new BookNotFoundException("api.digital-library.book-info.by-name.api.response.404" + title);
+        if (book == null)
+            throw new BookNotFoundException(title);
 
-        return MapperBook.;
+        return MapperBook.mapperToDto(book);
     }
 
+    private void createEmptyAuthor(Book book, String authorName) {
+        Author author = new Author(authorName.replace(ContextSpecialSymbols.SYMBOL_EMPTY,
+                                                      ContextSpecialSymbols.SYMBOL_UNDERLINE));
+        book.getAuthors().add(author);
+    }
+
+    @Transactional
+    public void add(BookDto bookDto) {
+        Book book = bookRepository.findBookByTitle(bookDto.getTitle());
+        if (book != null) throw new BookAlreadyExistsException(bookDto.getTitle());
+
+        final Book newBook = MapperBook.mapperToEntity(bookDto);
+        bookDto.getAuthors().stream()
+            .filter(author -> authorRepository.findAuthorByName(author) == null)
+            .forEach(author-> createEmptyAuthor(newBook, author));
+
+        if (publisherRepository.findByTitle(bookDto.getPublisher()) == null) {
+            Publisher publisher = new Publisher(bookDto.getPublisher());
+            newBook.setPublisher(publisher);
+        }
+
+        bookRepository.save(newBook);
+    }
 }

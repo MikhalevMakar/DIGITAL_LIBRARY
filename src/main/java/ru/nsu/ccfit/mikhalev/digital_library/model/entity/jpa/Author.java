@@ -12,25 +12,24 @@ import java.util.Set;
 @Setter
 @Table(name="author")
 public class Author {
+    public Author() {}
+
+    public Author(String name) {
+        this.name = name;
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column
     private Long id;
 
-    @Column(name = "surname", nullable = false)
-    private String surname;
+    @Column(nullable = false)
+    private String name;
 
-    @Column(name = "first_name", nullable = false)
-    private String firstName;
-
-    @Column(name = "patronymic", nullable = false)
-    private String patronymic;
-
-    @Column(name = "birth_date", nullable = false)
+    @Column(name = "birth_date")
     @Temporal(TemporalType.DATE)
     private LocalDate birthDate;
 
-    @Column(name = "biography", nullable = false)
+    @Column
     private String biography;
 
     @ManyToMany

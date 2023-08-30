@@ -43,14 +43,14 @@ public class AuthorController {
 
     @PostMapping("/author_{surname}/add")
     public ResponseEntity<Void> add(@Valid @RequestBody AuthorDto authorDto) {
-        log.info("add new author " + authorDto.getSurname());
+        log.info("add new author " + authorDto.getName());
         Mock.editAuthor(authorDto);
         return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/author_{surname}/edit")
     public ResponseEntity<Void> edit(@Valid @RequestBody AuthorDto authorDto) {
-        log.info("edit author " + authorDto.getSurname());
+        log.info("edit author " + authorDto.getName());
         Mock.editAuthor(authorDto);
         return ResponseEntity.ok().build();
     }
