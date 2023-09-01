@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -36,5 +37,5 @@ public class Author {
     @JoinTable(name = "author_book_info",
                joinColumns = @JoinColumn(name = "author_id", nullable = false),
                inverseJoinColumns = @JoinColumn(name = "book_info_id", nullable = false))
-    private Set<Book> books;
+    private Set<Book> books = new HashSet<>();
 }

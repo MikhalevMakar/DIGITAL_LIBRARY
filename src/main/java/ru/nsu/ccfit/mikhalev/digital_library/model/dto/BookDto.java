@@ -11,24 +11,24 @@ public class BookDto {
 
     @Size(min = ContextValidation.MIN_SIZE_WORD,
           max = ContextValidation.MAX_SIZE_WORD)
-    @NotEmpty(message = "{validation.digital-library.title.not-empty}")
+//    @NotEmpty(message = "{validation.digital-library.title.not-empty}")
     private String title;
 
     @Min(ContextValidation.MIN_SIZE_YEAR)
     @Max(ContextValidation.CURRENT_YEAR)
-    @NotEmpty(message = "{validation.digital-library.year.not-empty}")
-    @Past(message = "{validation.digital-library.past-date}")
+//  @NotEmpty(message = "{validation.digital-library.year.not-empty}")
+//  @Past(message = "{validation.digital-library.past-date}")
     private Integer year;
 
-    @NotNull(message = "{validation.digital-library.author.not-empty}")
+   // @NotNull(message = "{validation.digital-library.author.not-empty}")
     private List<String> authors;
 
     @Size(min = ContextValidation.MIN_SIZE_WORD,
           max = ContextValidation.MAX_SIZE_WORD)
-    @NotEmpty(message = "{validation.digital-library.publisher.not-empty}")
+    //@NotEmpty(message = "{validation.digital-library.publisher.not-empty}")
     private String publisher;
 
     @Size(min = ContextValidation.MIN_SIZE_WORD)
-    @NotEmpty(message = "{validation.digital-library.description.not-empty}")
+    //@NotEmpty(message = "{validation.digital-library.description.not-empty}")
     private String description;
 }

@@ -12,11 +12,9 @@ public class MapperBook {
 
     public static BookDto mapperToDto(Book book) {
         BookDto bookDto = new BookDto();
-        bookDto.setTitle(book.getTitle().replace(ContextSpecialSymbols.SYMBOL_UNDERLINE,
-                                                 ContextSpecialSymbols.SYMBOL_EMPTY));
+        bookDto.setTitle(book.getTitle());
         bookDto.setAuthors(book.getAuthors().stream()
-               .map(author -> author.getName().replace(ContextSpecialSymbols.SYMBOL_UNDERLINE,
-                                                       ContextSpecialSymbols.SYMBOL_EMPTY))
+               .map(author -> author.getName())
                .toList());
         bookDto.setDescription(book.getDescription());
         bookDto.setYear(book.getYear());
@@ -27,8 +25,7 @@ public class MapperBook {
     public static Book mapperToEntity(BookDto bookDto) {
         Book book = new Book();
         book.setYear(bookDto.getYear());
-        book.setTitle(bookDto.getTitle().replace(ContextSpecialSymbols.SYMBOL_EMPTY,
-                                                 ContextSpecialSymbols.SYMBOL_UNDERLINE));
+        book.setTitle(bookDto.getTitle());
         book.setDescription(bookDto.getDescription());
         return book;
     }

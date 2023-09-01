@@ -3,6 +3,7 @@ package ru.nsu.ccfit.mikhalev.digital_library.model.entity.jpa;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -25,12 +26,12 @@ public class Publisher {
     @Column(nullable = false)
     private String title;
 
-    @Column(name = "foundation_year", nullable = false)
+    @Column(name = "foundation_year")
     private Short foundationYear;
 
-    @Column(nullable = false)
+    @Column
     private String description;
 
     @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Book> book;
+    private Set<Book> book = new HashSet<>();
 }
