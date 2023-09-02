@@ -28,27 +28,27 @@ public class AuthorController {
     })
     @GetMapping("/author_{surname}")
     public ResponseEntity<AuthorDto> getInfo(@PathVariable
-                                               @Size(min = ContextValidation.MIN_SIZE_WORD,
-                                                     max = ContextValidation.MAX_SIZE_WORD) String surname) {
+                                             @Size(min = ContextValidation.MIN_SIZE_WORD,
+                                                   max = ContextValidation.MAX_SIZE_WORD) String surname) {
         log.info("request getInfo " + surname);
         return ResponseEntity.ok(Mock.getAuthorInfo(surname));
     }
 
     @GetMapping("/authors/{number_page}")
-    public  ResponseEntity<List<AuthorDto>> getBooksPage(@PathVariable(name = "number_page")
-                                                         @Min(ContextValidation.MIN_SIZE_PAGES) Integer numberPage) {
+    public  ResponseEntity<List<AuthorDto>> getAuthorPage(@PathVariable(name = "number_page")
+                                                          @Min(ContextValidation.MIN_SIZE_PAGES) Integer numberPage) {
         log.info("get authors by page" + numberPage);
         return ResponseEntity.ok(Mock.listAuthorFromPage(numberPage));
     }
 
-    @PostMapping("/author_{surname}/add")
+    @PostMapping("/author/add")
     public ResponseEntity<Void> add(@Valid @RequestBody AuthorDto authorDto) {
         log.info("add new author " + authorDto.getName());
         Mock.editAuthor(authorDto);
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("/author_{surname}/edit")
+    @PatchMapping("/author/edit")
     public ResponseEntity<Void> edit(@Valid @RequestBody AuthorDto authorDto) {
         log.info("edit author " + authorDto.getName());
         Mock.editAuthor(authorDto);

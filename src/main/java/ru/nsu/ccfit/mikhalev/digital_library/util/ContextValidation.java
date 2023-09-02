@@ -8,11 +8,11 @@ public record ContextValidation() {
 
     public static final int MIN_SIZE_YEAR = 1;
 
-    public static final int MIN_SIZE_AUTHOR = 3;
-
     public static final int CURRENT_YEAR = 2023;
 
     public static final int MIN_SIZE_PAGES = 1;
+
+    public static final int CURRENT_SIZE_PAGE = 10;
 
     public static final int MIN_SIZE_SEQ = 3;
 

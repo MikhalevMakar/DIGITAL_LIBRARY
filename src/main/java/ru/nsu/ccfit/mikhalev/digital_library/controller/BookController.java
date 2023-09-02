@@ -1,23 +1,22 @@
 package ru.nsu.ccfit.mikhalev.digital_library.controller;
 
-
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.*;
 import io.swagger.v3.oas.annotations.responses.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.*;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.nsu.ccfit.mikhalev.digital_library.model.dto.BookDto;
-import ru.nsu.ccfit.mikhalev.digital_library.service.BookService;
-import ru.nsu.ccfit.mikhalev.digital_library.service.BookServiceImp;
-import ru.nsu.ccfit.mikhalev.digital_library.service.Mock;
+import ru.nsu.ccfit.mikhalev.digital_library.model.exception.*;
+import ru.nsu.ccfit.mikhalev.digital_library.service.*;
 import org.springframework.http.ResponseEntity;
-import ru.nsu.ccfit.mikhalev.digital_library.util.ContextSpecialSymbols;
-import ru.nsu.ccfit.mikhalev.digital_library.util.ContextValidation;
+import ru.nsu.ccfit.mikhalev.digital_library.util.*;
+
+import java.util.*;
 
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
@@ -28,26 +27,37 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 @RequestMapping(value = "/digital_library", produces = APPLICATION_JSON_VALUE)
 public class BookController {
     @Autowired
-    @Qualifier("bookServiceImp")
-    private BookService bookService;
+    @Qualifier("bookService")
+    private ServiceCRUD<BookDto> bookService;
 
     @Operation(summary = "api.digital-library.book.info")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "api-digital-library.return-code.ok",
-            description = "api-digital-library.return-code.ok.description")
+                     description = "api-digital-library.return-code.ok.description"
+        ),
+        @ApiResponse(responseCode = "api-digital-library.return-code.not-found",
+                     description = "api.digital-library.book-info.by-name.response-book-not-found",
+                     content = {@Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = BookNotFoundException.class))}
+        )
     })
     @GetMapping("/book/{title}")
     public ResponseEntity<BookDto> getInfo(@PathVariable @Size(min = ContextValidation.MIN_SIZE_WORD,
                                                                max = ContextValidation.MAX_SIZE_WORD) String title) {
         log.info("get book " + title + " info");
-        return ResponseEntity.ok(bookService.getBookInfoByTitle(title.replace(ContextSpecialSymbols.SYMBOL_EMPTY,
-                                                                              ContextSpecialSymbols.SYMBOL_UNDERLINE)));
+        return ResponseEntity.ok(bookService.getInfoByTitle(title.replace(ContextSpecialSymbols.SYMBOL_UNDERLINE,
+                                                                          ContextSpecialSymbols.SYMBOL_EMPTY)));
     }
 
     @Operation(summary = "api.digital-library.book.add")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "api-digital-library.return-code.ok",
-                     description = "api-digital-library.return-code.ok.description")
+                     description = "api-digital-library.return-code.ok.description"
+        ),
+        @ApiResponse(responseCode = "api-digital-library.return-code.not-found",
+                     description = "api.digital-library.book-info.by-name.response-already-database",
+                     content = {@Content(mediaType = APPLICATION_JSON_VALUE,
+                     schema = @Schema(implementation = BookAlreadyExistsException.class))}
+        )
     })
     @PostMapping("/book/add")
     public ResponseEntity<Void> add(@Valid @RequestBody BookDto bookDto) {
@@ -56,26 +66,33 @@ public class BookController {
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("/book/edit")
-    public ResponseEntity<Void> edit(@Valid @RequestBody BookDto bookDto) {
-        log.info("edit book " + bookDto);
-        Mock.editBook(bookDto);
+    @PatchMapping("/book/edit/{old_title}")
+    public ResponseEntity<Void> edit(@PathVariable(name = "old_title") String oldTitle, @Valid @RequestBody BookDto bookDto) {
+        log.info("edit book " + oldTitle);
+        bookService.edit(oldTitle, bookDto);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/books/{page}")
-    public void getBooksPage(@PathVariable @Min(ContextValidation.MIN_SIZE_PAGES) Integer page) {
-        log.info("get books from page " + page);
+    @Operation(summary = "api.digital-library.book.books-page")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "api-digital-library.return-code.ok",
+                     description = "api-digital-library.return-code.ok.description"),
+        @ApiResponse(responseCode = "api-digital-library.return-code.not-found",
+            description = "api.digital-library.book-info.by-name.response-book-not-found")
+    })
+    @GetMapping("/books/{number_page}")
+    public List<BookDto> getBooksPage(@PathVariable(name = "number_page")
+                                      @Min(ContextValidation.MIN_SIZE_PAGES) Integer numberPage) {
+        log.info("get books from page " + numberPage);
+        return bookService.getPage(numberPage);
     }
 
     @DeleteMapping("/book/{title}")
     public ResponseEntity<Void> delete(@PathVariable @Size(min = ContextValidation.MIN_SIZE_WORD,
                                                            max = ContextValidation.MAX_SIZE_WORD) String title) {
         log.info("delete book " + title);
-        Mock.deleteBook(title.replace(ContextSpecialSymbols.SYMBOL_EMPTY,
-                                      ContextSpecialSymbols.SYMBOL_UNDERLINE));
+        bookService.delete(title.replace(ContextSpecialSymbols.SYMBOL_EMPTY,
+                                         ContextSpecialSymbols.SYMBOL_UNDERLINE));
         return ResponseEntity.ok().build();
     }
-
-
 }

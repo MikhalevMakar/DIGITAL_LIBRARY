@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import ru.nsu.ccfit.mikhalev.digital_library.model.exception.BookAlreadyExistsException;
+import ru.nsu.ccfit.mikhalev.digital_library.model.exception.BookNotFoundException;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
@@ -25,6 +27,23 @@ public class ErrorController {
                                     HttpStatus.INTERNAL_SERVER_ERROR.value()));
     }
 
+    @ExceptionHandler(BookNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handlerBookNotFoundException(BookNotFoundException exception) {
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .body(new ErrorResponse(LocalDateTime.now(),
+                propertyResolverUtils.resolve("api.digital-library.book-info.by-name.response-book-not-found", Locale.getDefault()),
+                HttpStatus.INTERNAL_SERVER_ERROR.value()));
+    }
+
+    @ExceptionHandler(BookAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handlerBookAlreadyExistsException(BookAlreadyExistsException exception) {
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .body(new ErrorResponse(LocalDateTime.now(),
+                propertyResolverUtils.resolve("api.digital-library.book-info.by-name.response-book-not-found", Locale.getDefault()),
+                HttpStatus.INTERNAL_SERVER_ERROR.value()));
+    }
     private record ErrorResponse(LocalDateTime dateTime, String message, int code) {
 
     }

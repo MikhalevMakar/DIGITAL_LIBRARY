@@ -26,7 +26,7 @@ public class PublisherController {
     @PatchMapping("/publisher_{title}/edit")
     public ResponseEntity<Void> edit(@Valid @RequestBody PublisherDto publisherDto) {
         log.info("edit publisher: " + publisherDto.getTitle());
-        //Mock.editBook(publisherDto);
+
         return ResponseEntity.ok().build();
     }
 

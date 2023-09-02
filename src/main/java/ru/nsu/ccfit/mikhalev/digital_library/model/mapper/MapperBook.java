@@ -10,23 +10,30 @@ public class MapperBook {
         throw new IllegalStateException("Utility class");
     }
 
-    public static BookDto mapperToDto(Book book) {
-        BookDto bookDto = new BookDto();
-        bookDto.setTitle(book.getTitle());
+    public static void settingEntity(Book book, BookDto bookDto) {
+        book.setYear(bookDto.getYear());
+        book.setTitle(bookDto.getTitle());
+        book.setDescription(bookDto.getDescription());
+    }
+
+    public static void settingDto(BookDto bookDto, Book book) {
         bookDto.setAuthors(book.getAuthors().stream()
-               .map(author -> author.getName())
-               .toList());
+            .map(author -> author.getName())
+            .toList());
         bookDto.setDescription(book.getDescription());
         bookDto.setYear(book.getYear());
         bookDto.setPublisher(book.getPublisher().getTitle());
+    }
+
+    public static BookDto mapperToDto(Book book) {
+        BookDto bookDto = new BookDto();
+        MapperBook.settingDto(bookDto, book);
         return bookDto;
     }
 
     public static Book mapperToEntity(BookDto bookDto) {
         Book book = new Book();
-        book.setYear(bookDto.getYear());
-        book.setTitle(bookDto.getTitle());
-        book.setDescription(bookDto.getDescription());
+        MapperBook.settingEntity(book, bookDto);
         return book;
     }
 }
