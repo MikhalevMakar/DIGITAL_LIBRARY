@@ -1,4 +1,4 @@
-package ru.nsu.ccfit.mikhalev.digital_library.model.exception;
+package ru.nsu.ccfit.mikhalev.digital_library.model.exception.book_exception;
 
 import ru.nsu.ccfit.mikhalev.digital_library.repository.jpa.BookRepository;
 

@@ -1,19 +1,15 @@
-package ru.nsu.ccfit.mikhalev.digital_library.service;
+package ru.nsu.ccfit.mikhalev.digital_library.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import ru.nsu.ccfit.mikhalev.digital_library.model.dto.AuthorDto;
-import ru.nsu.ccfit.mikhalev.digital_library.model.dto.BookDto;
-import ru.nsu.ccfit.mikhalev.digital_library.model.entity.jpa.Author;
-import ru.nsu.ccfit.mikhalev.digital_library.model.entity.jpa.Book;
-import ru.nsu.ccfit.mikhalev.digital_library.model.exception.AuthorAlreadyException;
-import ru.nsu.ccfit.mikhalev.digital_library.model.exception.AuthorNotFoundException;
-import ru.nsu.ccfit.mikhalev.digital_library.model.mapper.MapperAuthor;
-import ru.nsu.ccfit.mikhalev.digital_library.model.mapper.MapperBook;
-import ru.nsu.ccfit.mikhalev.digital_library.repository.jpa.AuthorRepository;
-import ru.nsu.ccfit.mikhalev.digital_library.repository.jpa.BookRepository;
+import ru.nsu.ccfit.mikhalev.digital_library.model.dto.*;
+import ru.nsu.ccfit.mikhalev.digital_library.model.entity.jpa.*;
+import ru.nsu.ccfit.mikhalev.digital_library.model.exception.author_exception.*;
+import ru.nsu.ccfit.mikhalev.digital_library.model.mapper.*;
+import ru.nsu.ccfit.mikhalev.digital_library.repository.jpa.*;
+import ru.nsu.ccfit.mikhalev.digital_library.service.ServiceCRUD;
 import ru.nsu.ccfit.mikhalev.digital_library.util.ContextValidation;
 
 import java.util.List;
@@ -22,7 +18,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-public class AuthorService implements ServiceCRUD<AuthorDto> {
+public class AuthorServiceImpl implements ServiceCRUD<AuthorDto> {
     @Autowired
     private  AuthorRepository authorRepository;
 
@@ -58,7 +54,7 @@ public class AuthorService implements ServiceCRUD<AuthorDto> {
             throw new AuthorAlreadyException(authorDto.getName());
         });
         Author author = MapperAuthor.mapperToEntity(authorDto);
-        log.info("author add dependence set<Boook>");
+        log.info("author add dependence set<Book>");
         addLinkBooks(authorDto.getBooks(), author);
         authorRepository.save(author);
     }

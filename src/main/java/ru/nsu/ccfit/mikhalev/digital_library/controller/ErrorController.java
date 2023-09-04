@@ -2,13 +2,12 @@ package ru.nsu.ccfit.mikhalev.digital_library.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.utils.PropertyResolverUtils;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import ru.nsu.ccfit.mikhalev.digital_library.model.exception.BookAlreadyExistsException;
-import ru.nsu.ccfit.mikhalev.digital_library.model.exception.BookNotFoundException;
+import ru.nsu.ccfit.mikhalev.digital_library.model.exception.book_exception.BookAlreadyExistsException;
+import ru.nsu.ccfit.mikhalev.digital_library.model.exception.book_exception.BookNotFoundException;
 
 import java.time.LocalDateTime;
 import java.util.Locale;

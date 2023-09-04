@@ -16,14 +16,14 @@ import java.util.List;
 @RestController
 @Slf4j
 public class PublisherController {
-    @PostMapping("/publisher_{title}/add")
+    @PostMapping("/manager/publisher/{title}/add")
     public ResponseEntity<Void> add(@Valid @RequestBody PublisherDto publisherDto) {
         log.info("add new publisher: " + publisherDto.getTitle());
         //Mock.addBook(publisherDto);
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("/publisher_{title}/edit")
+    @PatchMapping("/manager/publisher_{title}/edit")
     public ResponseEntity<Void> edit(@Valid @RequestBody PublisherDto publisherDto) {
         log.info("edit publisher: " + publisherDto.getTitle());
 
@@ -37,7 +37,7 @@ public class PublisherController {
         return ResponseEntity.ok(null);
     }
 
-    @DeleteMapping("/publisher_{title}")
+    @DeleteMapping("/manager/publisher_{title}")
     public ResponseEntity<Void> delete(@PathVariable @Size(min = ContextValidation.MIN_SIZE_WORD,
                                                            max = ContextValidation.MAX_SIZE_WORD) String title) {
         log.info("delete publisher " + title);

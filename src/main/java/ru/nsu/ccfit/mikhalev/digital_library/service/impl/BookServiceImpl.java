@@ -1,4 +1,4 @@
-package ru.nsu.ccfit.mikhalev.digital_library.service;
+package ru.nsu.ccfit.mikhalev.digital_library.service.impl;
 
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -7,9 +7,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.nsu.ccfit.mikhalev.digital_library.model.dto.BookDto;
 import ru.nsu.ccfit.mikhalev.digital_library.model.entity.jpa.*;
-import ru.nsu.ccfit.mikhalev.digital_library.model.exception.*;
+import ru.nsu.ccfit.mikhalev.digital_library.model.exception.book_exception.BookAlreadyExistsException;
+import ru.nsu.ccfit.mikhalev.digital_library.model.exception.book_exception.BookNotFoundException;
 import ru.nsu.ccfit.mikhalev.digital_library.model.mapper.MapperBook;
 import ru.nsu.ccfit.mikhalev.digital_library.repository.jpa.*;
+import ru.nsu.ccfit.mikhalev.digital_library.service.ServiceCRUD;
 import ru.nsu.ccfit.mikhalev.digital_library.util.ContextValidation;
 
 import java.util.*;
@@ -17,7 +19,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-public class BookService implements ServiceCRUD<BookDto> {
+public class BookServiceImpl implements ServiceCRUD<BookDto> {
     @Autowired
     private BookRepository bookRepository;
 
@@ -28,7 +30,7 @@ public class BookService implements ServiceCRUD<BookDto> {
     private PublisherRepository publisherRepository;
 
     @Override
-    public BookDto getInfoByTitle(String title) throws BookNotFoundException {
+    public BookDto getInfoByTitle(String title) throws BookNotFoundException{
         log.info("find book by title" + title);
         Book book = bookRepository.findBookByTitle(title)
             .orElseThrow(() -> new BookNotFoundException(title));
@@ -61,7 +63,7 @@ public class BookService implements ServiceCRUD<BookDto> {
     public void add(BookDto bookDto) {
         log.info("find book in repository");
         bookRepository.findBookByTitle(bookDto.getTitle()).ifPresent(book -> {
-            throw new BookAlreadyExistsException(bookDto.getTitle());
+            throw new BookAlreadyExistsException (bookDto.getTitle());
         });
 
         log.info("book add dependence set<Author>");

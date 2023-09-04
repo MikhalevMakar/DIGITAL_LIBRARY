@@ -11,7 +11,8 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.nsu.ccfit.mikhalev.digital_library.model.dto.BookDto;
-import ru.nsu.ccfit.mikhalev.digital_library.model.exception.*;
+import ru.nsu.ccfit.mikhalev.digital_library.model.exception.book_exception.BookAlreadyExistsException;
+import ru.nsu.ccfit.mikhalev.digital_library.model.exception.book_exception.BookNotFoundException;
 import ru.nsu.ccfit.mikhalev.digital_library.service.*;
 import org.springframework.http.ResponseEntity;
 import ru.nsu.ccfit.mikhalev.digital_library.util.*;
@@ -24,10 +25,10 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 @Slf4j
 @Validated
 @Tag(name = "api.digital-library.tag.name", description = "api.digital-library.tag.description")
-@RequestMapping(value = "/digital_library", produces = APPLICATION_JSON_VALUE)
+@RequestMapping(value = "digital_library", produces = APPLICATION_JSON_VALUE)
 public class BookController {
     @Autowired
-    @Qualifier("bookService")
+    @Qualifier("bookServiceImpl")
     private ServiceCRUD<BookDto> bookService;
 
     @Operation(summary = "api.digital-library.book.info")
@@ -59,14 +60,14 @@ public class BookController {
                      schema = @Schema(implementation = BookAlreadyExistsException.class))}
         )
     })
-    @PostMapping("/book/add")
+    @PostMapping("/manager/book/add")
     public ResponseEntity<Void> add(@Valid @RequestBody BookDto bookDto) {
         log.info("add new book " + bookDto);
         bookService.add(bookDto);
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("/book/edit/{old_title}")
+    @PatchMapping("/manager/book/edit/{old_title}")
     public ResponseEntity<Void> edit(@PathVariable(name = "old_title") String oldTitle, @Valid @RequestBody BookDto bookDto) {
         log.info("edit book " + oldTitle);
         bookService.edit(oldTitle, bookDto);
@@ -87,7 +88,7 @@ public class BookController {
         return bookService.getPage(numberPage);
     }
 
-    @DeleteMapping("/book/{title}")
+    @DeleteMapping("/manager/book/{title}")
     public ResponseEntity<Void> delete(@PathVariable @Size(min = ContextValidation.MIN_SIZE_WORD,
                                                            max = ContextValidation.MAX_SIZE_WORD) String title) {
         log.info("delete book " + title);

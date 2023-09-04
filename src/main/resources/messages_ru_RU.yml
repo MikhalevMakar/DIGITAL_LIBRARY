@@ -38,3 +38,6 @@ api.digital-library.book-info.by-name.response-already-database=Книга уж�
 api.digital-library.book-info.server.error=Ошибка сервера
 api.digital-library.book-info.by-name.response-author-not-found=Автор не найден
 api.digital-library.book-info.by-name.response-already-database=Автор уже есть в базе данных
+pi.digital-library.user.by-name.response-not-found=Пользователь не был найден
+api.digital-library.user.by-name.response-already-database=Пользователь с таким именем уже существует
+api.digital-library.custom-security-filter.response.empty-password-or-username=Имя пользователя или пароль пуст

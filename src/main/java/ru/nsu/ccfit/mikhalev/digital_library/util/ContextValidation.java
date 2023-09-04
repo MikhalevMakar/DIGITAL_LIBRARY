@@ -17,4 +17,11 @@ public record ContextValidation() {
     public static final int MIN_SIZE_SEQ = 3;
 
     public static final int MAX_SIZE_SEQ = 150;
+
+    public static final int MIN_SIZE_PASSWORD = 7;
+
+    public static final int MAX_SIZE_PASSWORD = 100;
+
+    public static final int MIN_SIZE_NAME = 5;
+    public static final int MAX_SIZE_NAME = 30;
 }
