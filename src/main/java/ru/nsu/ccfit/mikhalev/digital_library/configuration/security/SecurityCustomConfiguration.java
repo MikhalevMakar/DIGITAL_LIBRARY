@@ -1,5 +1,6 @@
 package ru.nsu.ccfit.mikhalev.digital_library.configuration.security;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -7,6 +8,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 
+@Slf4j
 @Configuration
 public class SecurityCustomConfiguration {
 
@@ -17,13 +19,15 @@ public class SecurityCustomConfiguration {
             registry -> registry
                 .requestMatchers("/digital_library/admin/**").hasAnyRole("ADMIN")
                 .requestMatchers("/digital_library/manager/**").hasAnyRole("ADMIN")
-                .requestMatchers("/digital_library/**").permitAll()
+                .requestMatchers("/**").permitAll()
+
         );
+
         http.cors(configurer-> configurer
-            .configurationSource(request -> new CorsConfiguration ().applyPermitDefaultValues()));
+            .configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()));
         http.csrf(AbstractHttpConfigurer::disable);
         http.apply(new CustomConfigurer());
+        log.info("create SecurityFilterChain");
         return http.build();
     }
-
 }

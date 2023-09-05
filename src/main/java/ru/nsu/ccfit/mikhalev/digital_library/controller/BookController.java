@@ -25,7 +25,7 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 @Slf4j
 @Validated
 @Tag(name = "api.digital-library.tag.name", description = "api.digital-library.tag.description")
-@RequestMapping(value = "digital_library", produces = APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/digital_library", produces = APPLICATION_JSON_VALUE)
 public class BookController {
     @Autowired
     @Qualifier("bookServiceImpl")

@@ -10,9 +10,8 @@ import java.util.Set;
 @Getter
 @Setter
 @Table
+@NoArgsConstructor
 public class Publisher {
-
-    public Publisher() {}
 
     public Publisher(String title) {
         this.title = title;

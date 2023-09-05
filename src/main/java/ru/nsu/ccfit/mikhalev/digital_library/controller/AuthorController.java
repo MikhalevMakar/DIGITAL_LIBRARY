@@ -54,7 +54,9 @@ public class AuthorController {
     }
 
     @PatchMapping("/manager/author/edit/{surname}")
-    public ResponseEntity<Void> edit(@PathVariable(name = "surname") String oldSurname, @Valid @RequestBody AuthorDto authorDto) {
+    public ResponseEntity<Void> edit(@PathVariable(name = "surname") @Size(min = ContextValidation.MIN_SIZE_WORD,
+                                                                           max = ContextValidation.MAX_SIZE_WORD) String oldSurname,
+                                     @Valid @RequestBody AuthorDto authorDto) {
         log.info("edit author " + authorDto.getName());
         authorService.edit(oldSurname, authorDto);
         return ResponseEntity.ok().build();
