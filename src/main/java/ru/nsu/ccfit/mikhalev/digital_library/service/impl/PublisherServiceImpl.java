@@ -36,10 +36,14 @@ public class PublisherServiceImpl implements ServiceCRUD<PublisherDto> {
 
     @Override
     public void add(PublisherDto publisherDto) {
+        log.info("find author in repository " + publisherDto.getTitle());
         publisherRepository.findByTitle(publisherDto.getTitle())
             .ifPresent(book -> {
             throw new BookAlreadyExistsException(publisherDto.getTitle());
         });
+        log.info("create publisher");
+        Publisher publisher = MapperPublisher.mapperToEntity(publisherDto);
+        publisherRepository.save(publisher);
     }
 
     @Override
@@ -60,6 +64,7 @@ public class PublisherServiceImpl implements ServiceCRUD<PublisherDto> {
 
     @Override
     public List<PublisherDto> getPage(Integer numberPage) {
+        log.info("get page " + numberPage);
         return publisherRepository.findAll(PageRequest.of(numberPage,
                                                           ContextValidation.CURRENT_SIZE_PAGE))
             .stream().map(MapperPublisher::mapperToDto).toList();

@@ -22,9 +22,13 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 @RequestMapping(value = "/digital_library", produces = APPLICATION_JSON_VALUE)
 public class AuthorController {
 
-    @Autowired
     @Qualifier("authorServiceImpl")
-    private ServiceCRUD<AuthorDto> authorService;
+    private final ServiceCRUD<AuthorDto> authorService;
+
+    @Autowired
+    public AuthorController(ServiceCRUD<AuthorDto> authorService){
+        this.authorService = authorService;
+    }
 
     @Operation(summary = "api.digital-library.author.info")
     @ApiResponses(value = {

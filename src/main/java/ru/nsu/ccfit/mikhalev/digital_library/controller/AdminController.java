@@ -3,12 +3,11 @@ package ru.nsu.ccfit.mikhalev.digital_library.controller;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Size;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.nsu.ccfit.mikhalev.digital_library.model.dto.UsernameDto;
-import ru.nsu.ccfit.mikhalev.digital_library.model.dto.UsersDto;
+import ru.nsu.ccfit.mikhalev.digital_library.model.dto.*;
 import ru.nsu.ccfit.mikhalev.digital_library.service.UsersService;
 import ru.nsu.ccfit.mikhalev.digital_library.util.ContextValidation;
 
@@ -19,6 +18,7 @@ import java.util.List;
 @Slf4j
 @Validated
 public class AdminController {
+    @Qualifier("userServiceImpl")
     private final UsersService usersService;
 
     @Autowired

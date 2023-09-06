@@ -1,8 +1,7 @@
 package ru.nsu.ccfit.mikhalev.digital_library.configuration.security;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.*;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
@@ -19,7 +18,7 @@ public class SecurityCustomConfiguration {
             registry -> registry
                 .requestMatchers("/digital_library/admin/**").hasAnyRole("ADMIN")
                 .requestMatchers("/digital_library/manager/**").hasAnyRole("ADMIN")
-                .requestMatchers("/**").permitAll()
+                .requestMatchers("/digital_library/**").permitAll()
 
         );
 
@@ -28,6 +27,7 @@ public class SecurityCustomConfiguration {
         http.csrf(AbstractHttpConfigurer::disable);
         http.apply(new CustomConfigurer());
         log.info("create SecurityFilterChain");
+        http.logout(configurer -> configurer.logoutSuccessUrl("/auth/success"));
         return http.build();
     }
 }

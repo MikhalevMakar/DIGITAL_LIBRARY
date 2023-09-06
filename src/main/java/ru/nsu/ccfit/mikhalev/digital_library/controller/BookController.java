@@ -11,8 +11,7 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.nsu.ccfit.mikhalev.digital_library.model.dto.BookDto;
-import ru.nsu.ccfit.mikhalev.digital_library.model.exception.book_exception.BookAlreadyExistsException;
-import ru.nsu.ccfit.mikhalev.digital_library.model.exception.book_exception.BookNotFoundException;
+import ru.nsu.ccfit.mikhalev.digital_library.model.exception.book_exception.*;
 import ru.nsu.ccfit.mikhalev.digital_library.service.*;
 import org.springframework.http.ResponseEntity;
 import ru.nsu.ccfit.mikhalev.digital_library.util.*;
@@ -27,9 +26,14 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 @Tag(name = "api.digital-library.tag.name", description = "api.digital-library.tag.description")
 @RequestMapping(value = "/digital_library", produces = APPLICATION_JSON_VALUE)
 public class BookController {
-    @Autowired
+
     @Qualifier("bookServiceImpl")
-    private ServiceCRUD<BookDto> bookService;
+    private final ServiceCRUD<BookDto> bookService;
+
+    @Autowired
+    public BookController(ServiceCRUD<BookDto> bookService) {
+        this.bookService = bookService;
+    }
 
     @Operation(summary = "api.digital-library.book.info")
     @ApiResponses(value = {

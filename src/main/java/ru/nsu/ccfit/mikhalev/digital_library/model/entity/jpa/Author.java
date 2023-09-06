@@ -34,8 +34,8 @@ public class Author {
     private String biography;
 
     @ManyToMany
-    @JoinTable(name = "author_book_info",
+    @JoinTable(name = "author_book",
                joinColumns = @JoinColumn(name = "author_id", nullable = false),
-               inverseJoinColumns = @JoinColumn(name = "book_info_id", nullable = false))
+               inverseJoinColumns = @JoinColumn(name = "book_id", nullable = false))
     private Set<Book> books = new HashSet<>();
 }
