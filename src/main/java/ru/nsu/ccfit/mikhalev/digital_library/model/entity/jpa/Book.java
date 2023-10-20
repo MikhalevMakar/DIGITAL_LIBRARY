@@ -31,4 +31,7 @@ public class Book {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="publisher_id", nullable = false)
     private Publisher publisher;
+
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Format> formatSet;
 }

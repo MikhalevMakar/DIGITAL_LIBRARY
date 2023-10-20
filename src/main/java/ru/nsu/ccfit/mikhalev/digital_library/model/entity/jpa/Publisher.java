@@ -31,6 +31,6 @@ public class Publisher {
     @Column
     private String description;
 
-    @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Book> book = new HashSet<>();
 }

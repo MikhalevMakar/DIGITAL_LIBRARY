@@ -29,20 +29,17 @@ public class CustomConfigurer<B extends HttpSecurityBuilder<B>,
     @Override
     public void configure(B builder) throws Exception {
         super.configure(builder);
-        log.info("32");
         ApplicationContext applicationContext = builder.getSharedObject(ApplicationContext.class);
         CustomAuthenticationProvider authenticationProvider = new CustomAuthenticationProvider();
-        log.info("35");
         authenticationProvider.setPasswordEncoder(applicationContext.getBean(PasswordEncoder.class));
         authenticationProvider.setUserDetailsService(applicationContext.getBean(UserDetailsService.class));
-        log.info("38");
         AuthenticationManagerBuilder authenticationManagerBuilder = builder.getSharedObject(AuthenticationManagerBuilder.class);
         authenticationManagerBuilder.authenticationProvider(authenticationProvider);
-        log.info("41");
+
         customSecurityFilter.setAuthenticationManager(builder.getSharedObject(AuthenticationManager.class));
         customSecurityFilter.setSecurityContextRepository(builder.getSharedObject(SecurityContextRepository.class));
         customSecurityFilter.setRequestMatcher(new AntPathRequestMatcher("/login", PathItem.HttpMethod.POST.name()));
-        log.info("45");
+
         builder.addFilterBefore(customSecurityFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }
